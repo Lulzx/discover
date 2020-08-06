@@ -1,0 +1,3 @@
+pysimdjson
+python-telegram-bot
+fastapi
