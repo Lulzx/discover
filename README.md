@@ -1,6 +1,6 @@
 # Search Experiments
 
-Search experiments with json result file from telegram desktop history exports using [simdjson](https://simdjson.org).
+Search experiments with json result file from telegram desktop history exports using [orjson](https://pypi.org/project/orjson/).
 
 ## Goals
 
