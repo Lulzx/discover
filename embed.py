@@ -6,7 +6,6 @@ from tqdm import tqdm
 from typing import List
 from fastembed.embedding import DefaultEmbedding
 from utils import load_messages
-from concurrent.futures import ProcessPoolExecutor
 
 
 def end_timer(start_time):
@@ -22,6 +21,9 @@ def extract_text(element):
     else:
         return ""
 
+def embed_document(document):
+    return embedding_model.passage_embed([document])[0]
+
 embedding_model = DefaultEmbedding()
 
 messages = load_messages()
@@ -33,9 +35,13 @@ message_texts = [message['text'] for message in message_dicts]
 documents: List[str] = message_texts
 
 if os.path.exists('raw_embeddings.npy'):
+    start_time = default_timer()
+
     embeddings = np.load('raw_embeddings.npy')
+
     count = len(embeddings)
-    print(f"Loaded {count} embeddings.")
+    time_elapsed = end_timer(start_time)
+    print(f"loaded {count} embeddings in {time_elapsed:.2f} ms")
 else:
     start_time = default_timer()
 
@@ -52,23 +58,25 @@ for i, message_dict in enumerate(message_dicts):
 try:
     with open('messages.json', 'w') as json_file:
         json_file.write(orjson.dumps(message_dicts, option=orjson.OPT_INDENT_2).decode('utf-8'))
-    print("Saved message texts with embeddings!")
+    print("saved message texts with embeddings!")
 except Exception as e:
-    print(f"An error occurred: {e}")
+    print(f"an error occurred: {e}")
+
+
+query = input("query: ")
 
 start_time = default_timer()
 
-query = input("query: ")
 query_embedding = next(embedding_model.query_embed(query))
 
 def print_top_k(query_embedding, embeddings, documents, k=min(5, count)):
     scores = np.dot(embeddings, query_embedding)
     sorted_indices = np.argsort(scores)[::-1][:k]
     for i, idx in enumerate(sorted_indices):
-        print(f"Rank {i+1}: Score={scores[idx]:.4f}, Document: {documents[idx]}")
+        print(f"rank {i+1}: score: {scores[idx]:.4f}, text: {documents[idx]}")
 
-print(f"Searching for: {query}")
+print(f"searching for: {query}")
 print_top_k(query_embedding, embeddings, documents)
 
 time_elapsed = end_timer(start_time)
-print(f"Search took {time_elapsed:.2f} ms")
+print(f"search took {time_elapsed:.2f} ms")
