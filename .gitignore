@@ -1,6 +1,6 @@
 *.json
 links.txt
-raw_embeddings.txt
+*.npy
 __pycache__
 *.session
 .env
