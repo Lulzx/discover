@@ -27,11 +27,14 @@ Ultimately, the goal is to make sure all the information you consume (your input
 
 
 ## Tech Stack
+
 - embedding model - [bge-small-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5)
 - telegram library - [pyrogram](https://github.com/pyrogram/pyrogram)
 - similarity search - [usearch](https://github.com/unum-cloud/usearch)
 - image model - [uform](https://github.com/unum-cloud/uform)
 - json serialization - [orjson](https://github.com/ijl/orjson)
+
+## Analysis
 
 ![hourly frequency](/results/hourly_freq.png "hourly frequency")
 ![post frequency](/results/post_freq.png "post frequency")
