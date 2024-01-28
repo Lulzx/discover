@@ -9,7 +9,6 @@ Powered by AI 🚀
 - [x] use bot as an interface to show results of the entered query
 - [x] control over the fuzzy search algorithm, typo tolerant search
 
-![post frequency](/results/post_freq.png "post frequency")
 
 
 ## Roadmap
@@ -23,9 +22,9 @@ Powered by AI 🚀
 - [ ] timeline overview
 - [ ] track learning
 
-![hourly frequency](/results/hourly_freq.png "hourly frequency")
 
 Ultimately, the goal is to make sure all the information you consume (your input) can lead to increased productivity and creativity (your output) instead of festering and getting forgotten in your mind backyard
+
 
 ## Tech Stack
 - embedding model - [bge-small-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5)
@@ -34,4 +33,6 @@ Ultimately, the goal is to make sure all the information you consume (your input
 - image model - [uform](https://github.com/unum-cloud/uform)
 - json serialization - [orjson](https://github.com/ijl/orjson)
 
+![hourly frequency](/results/hourly_freq.png "hourly frequency")
+![post frequency](/results/post_freq.png "post frequency")
 ![sleep duration](/results/7ma-sleep.png "sleep duration")
