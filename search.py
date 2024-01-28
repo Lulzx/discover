@@ -1,19 +1,37 @@
-import time
-from utils import load_messages
+import numpy as np
+from tabulate import tabulate
+from embed import EmbeddingService
+from typing import List, Dict, Any
+from timeit import default_timer as timer
 
-start = time.time()
 
-messages = load_messages()
+embedding_service = EmbeddingService()
 
-t = input("Enter search query: ").lower()
-indices = []
-for i in range(len(messages)):
-	text = str(messages[i]['text'])
-	if t in text:
-		indices.extend([messages[i]['id']])
-print("post id(s): ", indices)
 
-end = time.time()
+class SearchEngine:
+    def __init__(self, embedding_service: EmbeddingService):
+        self.embedding_service = embedding_service
 
-time_elapsed = end - start
-print(len(indices), "item(s) found in", str(time_elapsed)[:5] + ' ms')
+    def search(self, query: str, k: int = 5):
+        query_embedding = self.embedding_service.embed_query(query)
+        top_k = self.embedding_service.get_top_k(query_embedding, k)
+        return top_k
+
+    def tabulate_results(self, top_k):
+        return tabulate(top_k, headers=["Rank", "Score", "Text"], tablefmt="simple")
+
+
+def main():
+    search_engine = SearchEngine(embedding_service)
+
+    query = input("query: ")
+    start_time = timer()
+
+    print(f"searching for \"{query}\"")
+    top_k = search_engine.search(query)
+
+    print(search_engine.tabulate_results(top_k))
+    print(f"search took {(timer() - start_time) * 1000:.2f} ms")
+
+if __name__ == "__main__":
+    main()

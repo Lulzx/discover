@@ -8,6 +8,7 @@ import timeit
 from pyrogram import Client, filters
 from utils import load_messages
 from dotenv import load_dotenv
+from utils import list_builder
 
 load_dotenv()
 
@@ -23,21 +24,6 @@ bot_token = os.getenv("BOT_TOKEN")
 app = Client("user", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
 messages = load_messages()
-
-
-def list_builder(indices):
-    string = ""
-    len_indices = len(indices)
-    if len_indices > 1:
-        for n, x in enumerate(indices):
-            y = "[{}](https://t.me/c/1083858375/{})".format(x,x)
-            if n < len_indices - 1:
-                string += "├ " + y + "\n"
-            else:
-                string += "└ " + y
-    else:
-        string += "└ " + str(indices[0])
-    return string
 
 
 @app.on_message(filters.command(["start", "help"]))
