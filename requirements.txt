@@ -4,3 +4,4 @@ seaborn
 python-dotenv
 pyrogram
 qdrant-client[fastembed]
+tabulate
