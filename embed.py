@@ -67,7 +67,7 @@ def main():
     embedding_model = DefaultEmbedding()
     embedding_service = EmbeddingService(embedding_model)
     messages = load_messages()
-    messages = messages[:1000]
+
     message_dicts = [{'id': message['id'], 'text': extract_text(message)} for message in messages]
     documents = [message['text'] for message in message_dicts]
     embeddings_filename = 'raw_embeddings.npy'
