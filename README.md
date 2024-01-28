@@ -4,11 +4,11 @@ Search experiments with json result file from telegram desktop history exports u
 
 ## Goals
 
-- implement a search engine for telegram history export (json)
-- index message text in posts and scraped content from links found
-- use bot as an interface to show results of the entered query
-- control over the fuzzy search algorithm, typo tolerant search
-- the ability for bot to search in multiple channels at once
+- [x] implement a search engine for telegram history export (json)
+- [x] index message text in posts and scraped links from content found
+- [x] use bot as an interface to show results of the entered query
+- [ ] control over the fuzzy search algorithm, typo tolerant search
+- [ ] the ability for bot to search in multiple channels at once
 
 ![post frequency](/results/post_freq.png "post frequency")
 
