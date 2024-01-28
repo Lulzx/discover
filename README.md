@@ -2,13 +2,12 @@
 
 Powered by AI 🚀
 
-## Goals
+## TODO
 
 - [x] implement a search engine for telegram history export (json)
 - [x] index message text in posts and scraped links from content found
 - [x] use bot as an interface to show results of the entered query
 - [x] control over the fuzzy search algorithm, typo tolerant search
-
 
 
 ## Roadmap
@@ -22,6 +21,7 @@ Powered by AI 🚀
 - [ ] timeline overview
 - [ ] track learning
 
+## Goal
 
 Ultimately, the goal is to make sure all the information you consume (your input) can lead to increased productivity and creativity (your output) instead of festering and getting forgotten in your mind backyard
 
