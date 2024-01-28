@@ -56,8 +56,10 @@ def save_messages_with_embeddings(message_dicts: List[Dict[str, Any]], filename:
 
 def print_top_k(query_embedding: np.ndarray, embeddings: np.ndarray, documents: List[str], k: int = 5):
     scores = np.dot(embeddings, query_embedding)
-    sorted_indices = np.argsort(scores)[::-1][:k]
-    table_data = [(i+1, f"{scores[idx]:.4f}", documents[idx]) for i, idx in enumerate(sorted_indices)]
+    sorted_indices = np.argsort(scores)[::-1]
+    unique_documents = list(dict.fromkeys(documents[idx] for idx in sorted_indices if documents[idx]))
+    top_k_documents = unique_documents[:k]
+    table_data = [(rank+1, f"{scores[documents.index(doc)]:.4f}", doc) for rank, doc in enumerate(top_k_documents)]
     print(tabulate(table_data, headers=["Rank", "Score", "Text"], tablefmt="simple"))
 
 
@@ -65,6 +67,7 @@ def main():
     embedding_model = DefaultEmbedding()
     embedding_service = EmbeddingService(embedding_model)
     messages = load_messages()
+    messages = messages[:1000]
     message_dicts = [{'id': message['id'], 'text': extract_text(message)} for message in messages]
     documents = [message['text'] for message in message_dicts]
     embeddings_filename = 'raw_embeddings.npy'
@@ -87,7 +90,7 @@ def main():
     query = input("query: ")
     start_time = timer()
     query_embedding = embedding_service.embed_query(query)
-    print(f"searching for: {query}")
+    print(f"searching for \"{query}\"")
     print_top_k(query_embedding, embeddings, documents)
     print(f"search took {(timer() - start_time) * 1000:.2f} ms")
 
