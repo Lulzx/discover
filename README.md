@@ -28,8 +28,7 @@ Powered by AI 🚀
 Ultimately, the goal is to make sure all the information you consume (your input) can lead to increased productivity and creativity (your output) instead of festering and getting forgotten in your mind backyard
 
 ## Tech Stack
-
-embedding model - bge-small-en-v1.5
-telegram library - pyrogram
-similarity search - usearch
-image model - uform
+- embedding model - bge-small-en-v1.5
+- telegram library - pyrogram
+- similarity search - usearch
+- image model - uform
