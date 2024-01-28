@@ -1,5 +1,7 @@
 *.json
 links.txt
+raw_embeddings.txt
 __pycache__
 *.session
 .env
+local_cache

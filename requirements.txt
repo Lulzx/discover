@@ -3,3 +3,4 @@ orjson
 seaborn
 python-dotenv
 pyrogram
+qdrant-client[fastembed]
