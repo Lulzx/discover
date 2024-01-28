@@ -1,2 +1,5 @@
 *.json
+links.txt
 __pycache__
+*.session
+.env

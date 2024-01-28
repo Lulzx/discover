@@ -1,16 +1,12 @@
 import time
-import simdjson
-
-parser = simdjson.Parser()
+from utils import load_messages
 
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
-with open('./result.json', 'rb') as fin:
-    pj = parser.parse(fin.read())
-    messages = pj['messages'].as_list()
+messages = load_messages()
 
 
 @app.get("/")

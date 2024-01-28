@@ -1,14 +1,9 @@
 import time
-import simdjson
-
-parser = simdjson.Parser()
+from utils import load_messages
 
 start = time.time()
-with open('./result.json', 'rb') as fin:
-    pj = parser.parse(fin.read())
-    print(pj.at('name'))
-    messages = pj['messages'].as_list()
-    print(pj.keys())
+
+messages = load_messages()
 
 t = input("Enter search query: ").lower()
 indices = []

@@ -10,6 +10,7 @@ Search experiments with json result file from telegram desktop history exports u
 - control over the fuzzy search algorithm, typo tolerant search
 - the ability for bot to search in multiple channels at once
 
+![post frequency](/results/post_freq.png "post frequency")
 
 # Remember Box 2.0
 
@@ -25,6 +26,8 @@ Powered by AI 🚀
 - timeline overview
 - track learning
 
+![hourly frequency](/results/hourly_freq.png "hourly frequency")
+
 Ultimately, the goal is to make sure all the information you consume (your input) can lead to increased productivity and creativity (your output) instead of festering and getting forgotten in your mind backyard
 
 ## Tech Stack
@@ -32,3 +35,5 @@ Ultimately, the goal is to make sure all the information you consume (your input
 - telegram library - pyrogram
 - similarity search - usearch
 - image model - uform
+
+![sleep duration](/results/7ma-sleep.png "sleep duration")

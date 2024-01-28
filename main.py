@@ -1,21 +1,28 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 import os
-import sys
 import logging
-import simdjson
-import time
-from telegram import ParseMode
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+import asyncio
+import timeit
+from pyrogram import Client, filters
+from utils import load_messages
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
 logger = logging.getLogger(__name__)
 
-with open('./result.json', 'rb') as fin:
-    pj = simdjson.ParsedJson(fin.read())
-    messages = pj.items('.chats.list[0].messages[]')
+api_id = os.getenv("API_ID")
+api_hash = os.getenv("API_HASH")
+bot_token = os.getenv("BOT_TOKEN")
+
+app = Client("user", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
+
+messages = load_messages()
 
 
 def list_builder(indices):
@@ -33,53 +40,25 @@ def list_builder(indices):
     return string
 
 
-def start(update, context):
-    update.message.reply_text('Hi!')
+@app.on_message(filters.command(["start", "help"]))
+def start(client, message):
+    message.reply('Hello, send me a query to search in @rememberbox!')
 
 
-def help(update, context):
-    update.message.reply_text('Help!')
-
-
-def echo(update, context):
-    indices = []
-    text = update.message.text
+@app.on_message(filters.text)
+def echo(client, message):
+    indices = set()
+    text = message.text
     try:
-        start = time.time()
-        for i in range(len(messages)):
-            if text in str(messages[i]['text']):
-                scheme = messages[i]['id']
-                if scheme not in indices:
-                    indices.extend([scheme])
-        # indices = list(dict.fromkeys(indices))
-        string = list_builder(indices)
-        end = time.time()
-        time_elapsed = (end - start)*1000
-        text = "💡 Remember Box\n" + string + "\n" + str(len(indices)) + " results in " + str(time_elapsed)[:5] + " milliseconds"
-        update.message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
-    except:
-        update.message.reply_text("Query not found.")
+        start_time = timeit.default_timer()
+        indices = {messages[i]['id'] for i in range(len(messages)) if text in str(messages[i]['text'])}
+        string = list_builder(list(indices))
+        time_elapsed = (timeit.default_timer() - start_time) * 1000
+        text = f"💡 Remember Box\n{string}\n{len(indices)} results in {time_elapsed:.2f} ms"
+        message.reply(text)
+    except Exception as e:
+        message.reply("Query not found.")
 
 
-def error(update, context):
-    logger.warning('Update "%s" caused error "%s"', update, context.error)
-
-
-def main():
-    try:
-        TOKEN = sys.argv[1]
-    except IndexError:
-        TOKEN = os.environ.get("TOKEN")
-    updater = Updater(TOKEN, use_context=True)
-    dp = updater.dispatcher
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("help", help))
-    dp.add_handler(MessageHandler(Filters.text, echo))
-    dp.add_error_handler(error)
-    updater.start_polling()
-    logger.info("Ready to rock..!")
-    updater.idle()
-
-
-if __name__ == '__main__':
-    main()
+logger.info("Ready to rock..!")
+app.run()

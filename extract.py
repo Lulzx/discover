@@ -1,24 +1,23 @@
-import json
 import time
-from urlextract import URLExtract
+from utils import load_messages
 
 start = time.time()
 
-extractor = URLExtract()
+links = set()
 
-with open('result.json', encoding="utf8") as f:
-  data = json.load(f)
+messages = load_messages()
 
-posts = json.dumps(data)
+for message in messages:
+    text_entities = message.get('text_entities', [])
+    for entity in text_entities:
+        if entity.get('type') == 'link':
+            url = entity.get('text')
+            links.add(url)
 
-links = []
 
-for url in extractor.gen_urls(posts):
-    links.append(url)
-
-with open("links.txt", "w") as f:
+with open("links.txt", "wb", buffering=8192) as f:
     for link in links:
-        f.write(str(link) +"\n")
+        f.write(f"{link}\n".encode("utf8"))
 
 end = time.time()
 

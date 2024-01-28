@@ -1,3 +1,5 @@
-pysimdjson
-python-telegram-bot
 fastapi
+orjson
+seaborn
+python-dotenv
+pyrogram
