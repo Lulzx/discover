@@ -1,25 +1,42 @@
 # Remember Box 2.0
 
-Powered by AI 🚀
-
-## TODO
-
-- [x] implement a search engine for telegram history export (json)
-- [x] index message text in posts and scraped links from content found
-- [x] use bot as an interface to show results of the entered query
-- [x] control over the fuzzy search algorithm, typo tolerant search
+Discover engine powered by AI 🚀
 
 
 ## Roadmap
 
-- [x] index everything
-- [ ] categorize everything
-- [ ] improve recalling
-- [ ] encourage reviewing
-- [ ] integrate with web
-- [ ] find new connections
-- [ ] timeline overview
-- [ ] track learning
+- [x] **Indexing:**
+   - [x] Index message text in Telegram history export (JSON).
+   - [x] Index scraped links from content found in messages.
+
+- [ ] **Categorization:**
+   - [ ] Organize indexed data into relevant categories for better search results.
+
+- [x] **Fuzzy Search and Typo Tolerance:**
+   - [x] Implement a customizable fuzzy search algorithm for typo-tolerant search capabilities.
+
+- [x] **Bot Interface:**
+   - [x] Develop a Telegram bot as an interface to facilitate user queries.
+   - [x] Display search results for entered queries, utilizing the indexed data.
+
+- [x] **Retrival Improvement:**
+   - [x] Enhance the recall mechanism to improve the accuracy and relevance of search results.
+
+- [ ] **Encourage Reviewing:**
+   - [ ] Implement features to encourage users to review and provide feedback on search results.
+
+- [ ] **Web Integration:**
+   - [ ] Integrate the search engine with a web interface for broader accessibility.
+
+- [ ] **Discover New Connections:**
+   - [ ] Explore and implement methods to discover new connections within the indexed data.
+
+- [ ] **Timeline Overview:**
+   - [ ] Provide a timeline overview feature for users to navigate through historical data more efficiently.
+
+- [ ] **Learning Tracking:**
+    - [ ] Incorporate a learning tracking system to monitor and analyze user interactions for continuous improvement.
+
 
 ## Goal
 
