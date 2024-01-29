@@ -5,3 +5,5 @@ __pycache__
 *.session
 .env
 local_cache
+calculated_cache
+.DS_Store

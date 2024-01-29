@@ -4,15 +4,15 @@ import numpy as np
 from tqdm import tqdm
 from typing import List, Dict, Any
 from timeit import default_timer as timer
-from utils import load_messages, time_elapsed
+from utils import get_messages, time_elapsed
 from fastembed.embedding import DefaultEmbedding
 
 
 class EmbeddingService:
     def __init__(self):
         self.model = self.load_model()
-        self.filename = "embeddings.npy"
-        self.documents = self.get_documents()
+        self.filename = "calculated_cache/embeddings.npy"
+        self.documents = get_messages()
         self.embeddings = self.get_embeddings()
 
 
@@ -33,28 +33,8 @@ class EmbeddingService:
         return np.array(embeddings)
 
 
-    def get_documents(self) -> List[str]:
-        return [self.extract_text(message) for message in self.get_messages()]
-
-
-    def get_messages(self) -> List[Dict[str, Any]]:
-        messages = load_messages()
-        return [{'id': message['id'], 'text': self.extract_text(message)} for message in messages]
-
-
     def embed_query(self, query: str) -> np.ndarray:
         return next(self.model.query_embed(query))
-
-
-    def extract_text(self, element: Any) -> str:
-        if isinstance(element, list):
-            return ''.join(map(self.extract_text, element))
-        elif isinstance(element, dict) and "text" in element:
-            return self.extract_text(element["text"])
-        elif isinstance(element, str):
-            return element
-        else:
-            return ""
 
 
     def get_embeddings(self) -> np.ndarray:

@@ -10,6 +10,27 @@ def load_messages():
         return messages
 
 
+def time_elapsed(start_time):
+    return f'{(timer() - start_time) * 1000:.2f}'
+
+
+def extract_text(element) -> str:
+    if isinstance(element, list):
+        return ''.join(map(extract_text, element))
+    elif isinstance(element, dict) and "text" in element:
+        return extract_text(element["text"])
+    elif isinstance(element, str):
+        return element
+    else:
+        return ""
+
+
+def get_messages():
+    messages = load_messages()
+    extracted_messages = [{'id': message['id'], 'text': extract_text(message)} for message in messages]
+    return [extract_text(message) for message in extracted_messages]
+
+
 def list_builder(indices):
     string = ""
     len_indices = len(indices)
@@ -23,7 +44,3 @@ def list_builder(indices):
     else:
         string += "└ " + str(indices[0])
     return string
-
-
-def time_elapsed(start_time):
-    return f'{(timer() - start_time) * 1000:.2f}'
