@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import seaborn as sns
+from sklearn.metrics import silhouette_score
 import matplotlib.pyplot as plt
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
@@ -39,10 +40,39 @@ def perform_tsne(data):
 embeddings_reduced = save_or_load('embeddings_tsne.npy', perform_tsne, embeddings_pca)
 
 def perform_hdbscan(data):
-    clusterer = hdbscan.HDBSCAN(min_cluster_size=5, gen_min_span_tree=True)
+    clusterer = hdbscan.HDBSCAN(min_cluster_size=30, gen_min_span_tree=True)
     return clusterer.fit_predict(data)
 
 cluster_labels = save_or_load('cluster_labels.npy', perform_hdbscan, embeddings_reduced)
+
+unique_labels = np.unique(cluster_labels)
+num_clusters = len(unique_labels) - (1 if -1 in unique_labels else 0)
+print(f"Number of clusters: {num_clusters}")
+
+def find_best_min_cluster_size(data, min_size_start, min_size_end, step=1):
+    best_min_cluster_size = None
+    best_silhouette_score = -1
+
+    for min_cluster_size in range(min_size_start, min_size_end + 1, step):
+        clusterer = hdbscan.HDBSCAN(min_cluster_size=min_cluster_size, gen_min_span_tree=True)
+        cluster_labels = clusterer.fit_predict(data)
+
+        filtered_labels = cluster_labels[cluster_labels != -1]
+        filtered_data = data[cluster_labels != -1]
+
+        if len(np.unique(filtered_labels)) > 1:
+            score = silhouette_score(filtered_data, filtered_labels)
+            print(f"min_cluster_size: {min_cluster_size}, silhouette_score: {score}")
+
+            if score > best_silhouette_score:
+                best_silhouette_score = score
+                best_min_cluster_size = min_cluster_size
+
+    return best_min_cluster_size, best_silhouette_score
+
+# best_size, best_score = find_best_min_cluster_size(embeddings_reduced, 5, 50, step=5)
+# print(f"The best min_cluster_size is {best_size} with a silhouette score of {best_score}")
+# The best min_cluster_size is 30 with a silhouette score of 0.6569266
 
 plt.figure(figsize=(10, 8))
 
@@ -54,7 +84,7 @@ for i, color in tqdm(enumerate(palette), desc='Plotting clusters', total=len(pal
     if len(points) == 0:
         continue
 
-    sns.scatterplot(x=points[:, 0], y=points[:, 1], color=color, label=f'Cluster {i}')
+    sns.scatterplot(x=points[:, 0], y=points[:, 1], color=color)
 
     try:
         kde = gaussian_kde(points.T)
@@ -70,7 +100,7 @@ for i, color in tqdm(enumerate(palette), desc='Plotting clusters', total=len(pal
 
 noise_points = embeddings_reduced[cluster_labels == -1]
 if len(noise_points) > 0:
-    sns.scatterplot(x=noise_points[:, 0], y=noise_points[:, 1], color=(0.5, 0.5, 0.5), label='Noise')
+    sns.scatterplot(x=noise_points[:, 0], y=noise_points[:, 1], color=(0.5, 0.5, 0.5))
 
 plt.title('HDBSCAN clustering with t-SNE reduced embeddings')
 plt.xlabel('t-SNE dimension 1')
