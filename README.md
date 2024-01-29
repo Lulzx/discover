@@ -56,3 +56,4 @@ Ultimately, the goal is to make sure all the information you consume (your input
 ![hourly frequency](/images/hourly_freq.png "hourly frequency")
 ![post frequency](/images/post_freq.png "post frequency")
 ![sleep duration](/images/7ma-sleep.png "sleep duration")
+![topic clusters](/images/topic_clusters.png "topic clusters")
