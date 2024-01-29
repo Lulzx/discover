@@ -8,12 +8,15 @@ from sklearn.decomposition import PCA
 import hdbscan
 from scipy.stats import gaussian_kde
 from tqdm import tqdm
+import orjson
 
-data_folder = 'cache'
-os.makedirs(data_folder, exist_ok=True)
+from utils import get_messages
+
+cache_folder = 'cache'
+os.makedirs(cache_folder, exist_ok=True)
 
 def save_or_load(filename, calculation_function=None, *args, **kwargs):
-    filepath = os.path.join(data_folder, filename)
+    filepath = os.path.join(cache_folder, filename)
     if os.path.exists(filepath):
         print(f"Loading {filename} from file...")
         data = np.load(filepath)
@@ -73,6 +76,30 @@ def find_best_min_cluster_size(data, min_size_start, min_size_end, step=1):
 # best_size, best_score = find_best_min_cluster_size(embeddings_reduced, 5, 50, step=5)
 # print(f"The best min_cluster_size is {best_size} with a silhouette score of {best_score}")
 # The best min_cluster_size is 30 with a silhouette score of 0.6569266
+
+messages = get_messages()
+
+cluster_texts_folder = os.path.join(cache_folder, 'cluster_texts')
+os.makedirs(cluster_texts_folder, exist_ok=True)
+
+for cluster_label in np.unique(cluster_labels):
+    if cluster_label == -1:
+        continue
+
+    indices_in_cluster = np.where(cluster_labels == cluster_label)[0]
+
+    cluster_messages = []
+
+    for index in indices_in_cluster:
+        message = messages[int(index)]
+        cluster_messages.append({'id': int(index), 'text': message})
+
+    cluster_file_path = os.path.join('cache', 'cluster_texts', f'cluster_{cluster_label}.json')
+    with open(cluster_file_path, 'wb') as cluster_file:
+        cluster_file.write(orjson.dumps(cluster_messages))
+
+    print(f"Stored messages for Cluster {cluster_label} in {cluster_file_path}")
+
 
 plt.figure(figsize=(10, 8))
 
