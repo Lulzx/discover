@@ -11,7 +11,7 @@ from fastembed.embedding import DefaultEmbedding
 class EmbeddingService:
     def __init__(self):
         self.model = self.load_model()
-        self.filename = "calculated_cache/embeddings.npy"
+        self.filename = "cache/embeddings.npy"
         self.documents = get_messages()
         self.embeddings = self.get_embeddings()
 
