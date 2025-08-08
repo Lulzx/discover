@@ -10,7 +10,7 @@ from scipy.stats import gaussian_kde
 from tqdm import tqdm
 import orjson
 
-from utils import get_messages
+from ..utils import get_messages
 
 cache_folder = 'cache'
 os.makedirs(cache_folder, exist_ok=True)

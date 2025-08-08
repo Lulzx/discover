@@ -1,5 +1,5 @@
 import time
-from utils import load_messages
+from ..utils import load_messages
 
 start = time.time()
 

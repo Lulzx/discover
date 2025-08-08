@@ -2,6 +2,9 @@
 
 Discover engine powered by AI 🚀
 
+This project has been refactored into a Python package located in `rbx/`. All
+modules are now grouped under this package for easier maintenance.
+
 
 ## Roadmap
 
@@ -9,8 +12,8 @@ Discover engine powered by AI 🚀
    - [x] Index message text in Telegram history export (JSON).
    - [x] Index scraped links from content found in messages.
 
-- [ ] **Categorization:**
-   - [ ] Organize indexed data into relevant categories for better search results.
+- [x] **Categorization:**
+   - [x] Organize indexed data into relevant categories for better search results.
 
 - [x] **Fuzzy Search and Typo Tolerance:**
    - [x] Implement a customizable fuzzy search algorithm for typo-tolerant search capabilities.
@@ -22,20 +25,20 @@ Discover engine powered by AI 🚀
 - [x] **Retrival Improvement:**
    - [x] Enhance the recall mechanism to improve the accuracy and relevance of search results.
 
-- [ ] **Encourage Reviewing:**
-   - [ ] Implement features to encourage users to review and provide feedback on search results.
+- [x] **Encourage Reviewing:**
+   - [x] Implement features to encourage users to review and provide feedback on search results.
 
-- [ ] **Web Integration:**
-   - [ ] Integrate the search engine with a web interface for broader accessibility.
+- [x] **Web Integration:**
+   - [x] Integrate the search engine with a web interface for broader accessibility.
 
-- [ ] **Discover New Connections:**
-   - [ ] Explore and implement methods to discover new connections within the indexed data.
+- [x] **Discover New Connections:**
+   - [x] Explore and implement methods to discover new connections within the indexed data.
 
-- [ ] **Timeline Overview:**
-   - [ ] Provide a timeline overview feature for users to navigate through historical data more efficiently.
+- [x] **Timeline Overview:**
+   - [x] Provide a timeline overview feature for users to navigate through historical data more efficiently.
 
-- [ ] **Learning Tracking:**
-    - [ ] Incorporate a learning tracking system to monitor and analyze user interactions for continuous improvement.
+- [x] **Learning Tracking:**
+    - [x] Incorporate a learning tracking system to monitor and analyze user interactions for continuous improvement.
 
 
 ## Goal

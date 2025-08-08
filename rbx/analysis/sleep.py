@@ -1,4 +1,4 @@
-from utils import load_messages
+from ..utils import load_messages
 import datetime
 import pandas as pd
 import seaborn as sns

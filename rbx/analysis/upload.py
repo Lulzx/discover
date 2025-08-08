@@ -1,12 +1,10 @@
-import uuid
 import os
-from pathlib import Path
+import uuid
 import shutil
+from pathlib import Path
 
 from typing import List
 from fastapi import FastAPI, File, UploadFile
-
-UPLOAD_FOLDER = 'uploads'
 
 app = FastAPI()
 
@@ -24,7 +22,7 @@ async def create_upload_file(file: UploadFile = File(...)):
     if not os.path.exists(tmp_uploads_path):
         os.makedirs(tmp_uploads_path)
 
-    p = Path(tmp_uploads_path + filename)
+    p = Path(tmp_uploads_path) / file.filename
     print(p)
 
     save_uploaded_file(file, p)
@@ -40,7 +38,7 @@ async def create_upload_files(files: List[UploadFile] = File(...)):
     
     for file in files:
         filenames["filenames"].append(file.filename)
-        p = Path(tmp_uploads_path + file.filename)
+        p = Path(tmp_uploads_path) / file.filename
         print(p)
 
         save_uploaded_file(file, p)
